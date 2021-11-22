@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "586821679676",
+    "project_id": "jynn-ca295",
+    "storage_bucket": "jynn-ca295.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586821679676:android:2111a0f9a5da84fb3aa139",
+        "android_client_info": {
+          "package_name": "com.example.jynn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586821679676-imnktm225mfup3ug5sgl9eqip4oa614m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3oYzb1Sgqc_m3y9K-niuSdoFnlgeDiCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586821679676-imnktm225mfup3ug5sgl9eqip4oa614m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_LoginFragment">
+
+    <fragment
+        android:id="@+id/navigation_LoginFragment"
+        android:name="com.example.jynn.views.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_loggedInFragment"
+            app:destination="@id/navigation_UserProfile" />
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_registerFragment"
+            app:destination="@id/navigation_RegisterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_UserProfile"
+        android:name="com.example.jynn.views.UserProfileFragment"
+        android:label="User Profile"
+        tools:layout="@layout/fragment_user_profile">
+        <action
+            android:id="@+id/action_loggedInFragment_to_loginRegisterFragment"
+            app:destination="@id/navigation_LoginFragment" />
+        <action
+            android:id="@+id/action_navigation_UserProfile_to_navigation_wishesFragment"
+            app:destination="@id/navigation_wishesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_RegisterFragment"
+        android:name="com.example.jynn.views.RegisterFragment"
+        android:label="Registration"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_loggedInFragment"
+            app:destination="@id/navigation_UserProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_wishesFragment"
+        android:name="com.example.jynn.views.WishesFragment"
+        android:label="All wishes"
+        tools:layout="@layout/fragment_wishes">
+        <action
+            android:id="@+id/action_wishesFragment_to_addWishFragment"
+            app:destination="@id/addWishFragment" />
+        <action
+            android:id="@+id/action_wishesFragment_to_wishDetailFragment"
+            app:destination="@id/wishDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_wishesFragment_to_navigation_UserProfile"
+            app:destination="@id/navigation_UserProfile" />
+    </fragment>
+    <fragment
+        android:id="@+id/addWishFragment"
+        android:name="com.example.jynn.views.AddWishFragment"
+        android:label="fragment_add_wish"
+        tools:layout="@layout/fragment_add_wish" >
+        <action
+            android:id="@+id/action_addWishFragment_to_navigation_wishesFragment"
+            app:destination="@id/navigation_wishesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishDetailFragment"
+        android:name="com.example.jynn.views.WishDetailFragment"
+        android:label="wish detail"
+        tools:layout="@layout/fragment_wish_detail">
+        <action
+            android:id="@+id/action_wishDetailFragment_to_navigation_wishesFragment"
+            app:destination="@id/navigation_wishesFragment" />
+    </fragment>
+</navigation>

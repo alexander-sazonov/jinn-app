@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Jynn</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="fragment_detail_comment_hint">Write a comment to wish</string>
+    <string name="fragment_detail_btn_text">become a genie</string>
+</resources>
