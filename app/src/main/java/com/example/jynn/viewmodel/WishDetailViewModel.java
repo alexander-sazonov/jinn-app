@@ -4,32 +4,31 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 
 import com.example.jynn.model.DatabaseAppRepository;
-import com.example.jynn.model.User;
 import com.example.jynn.model.Wish;
 
-import java.util.List;
+public class WishDetailViewModel extends AndroidViewModel {
 
-public class WishesViewModel extends AndroidViewModel {
-
-    MutableLiveData<List<Wish>> wishesLiveData;
     DatabaseAppRepository databaseAppRepository;
+    LiveData<Boolean> wishUpdatedLiveData;
 
-    public WishesViewModel(@NonNull Application application) {
+    public WishDetailViewModel(@NonNull Application application) {
         super(application);
         databaseAppRepository = new DatabaseAppRepository(application);
-        wishesLiveData = databaseAppRepository.getWishesLiveData();
+        wishUpdatedLiveData = databaseAppRepository.getWishUpdatedLiveData();
     }
 
-
-    public MutableLiveData<List<Wish>> getWishesLiveData() {
-        return wishesLiveData;
+    public void updateWish(Wish wish){
+        databaseAppRepository.updateWish(wish);
     }
 
     public String getCurrentUserId(){
         return databaseAppRepository.getCurrentUserId();
     }
 
+    public LiveData<Boolean> getWishUpdatedLiveData() {
+        return wishUpdatedLiveData;
+    }
 }

@@ -163,6 +163,7 @@ public class Wish implements Parcelable {
     @Exclude
     Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
+        map.put("id",id);
         map.put("title", title);
         map.put("description", description);
         map.put("createUserId", createUserId);

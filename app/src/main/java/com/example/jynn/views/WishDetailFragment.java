@@ -3,18 +3,31 @@ package com.example.jynn.views;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.jynn.R;
 import com.example.jynn.model.Wish;
+import com.example.jynn.viewmodel.WishDetailViewModel;
+import com.example.jynn.viewmodel.WishesViewModel;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,9 +36,16 @@ import com.example.jynn.model.Wish;
  */
 public class WishDetailFragment extends Fragment {
 
+    private final static String TAG = "WishDetailFragment";
+
+    WishDetailViewModel wishDetailViewModel;
     private TextView wishTitleTextView;
     private TextView wishContentTextView;
     private EditText wishCommentEditText;
+    private LinearLayout jinnInfoLinearLayout;
+    private ImageView jinnImageView;
+    private TextView jinnNameTextView;
+    private TextView jinnCommentTextView;
     private Button btn;
     private Wish wish;
 
@@ -72,6 +92,13 @@ public class WishDetailFragment extends Fragment {
         if (getArguments() != null) {
            wish = getArguments().getParcelable("bundleKey");
         }
+        wishDetailViewModel = new ViewModelProvider(this).get(WishDetailViewModel.class);
+        wishDetailViewModel.getWishUpdatedLiveData().observe(this, isUpdated -> {
+            if(isUpdated){
+                Toast.makeText(getContext(),"Wish successfully updated",Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(getView()).navigate(R.id.action_wishDetailFragment_to_navigation_wishesFragment);
+            }
+        });
     }
 
     @Override
@@ -83,11 +110,42 @@ public class WishDetailFragment extends Fragment {
         wishContentTextView = view.findViewById(R.id.fragment_detail_content);
         wishCommentEditText = view.findViewById(R.id.fragment_detail_comment);
         wishTitleTextView.setText(wish.getTitle());
+        jinnInfoLinearLayout = view.findViewById(R.id.fragment_detail_jinn);
+        jinnImageView = view.findViewById(R.id.fragment_detain_jinn_photo);
+        jinnNameTextView = view.findViewById(R.id.fragment_detail_jinn_name);
+        jinnCommentTextView = view.findViewById(R.id.fragment_detail_jinn_comment);
         wishContentTextView.setText(wish.getDescription());
         btn = view.findViewById(R.id.fragment_detail_btn);
-        btn.setOnClickListener(view1 -> {
+       if(wishDetailViewModel.getCurrentUserId().equals(wish.getCreateUserId())){
+            btn.setEnabled(false);
+            wishCommentEditText.setEnabled(false);
+            wishCommentEditText.setVisibility(View.INVISIBLE);
+            if(wish.getFulfillUserId()!=null&&!wish.getFulfillUserId().equals("")){
+                jinnInfoLinearLayout.setVisibility(View.VISIBLE);
+                if(!wish.getFulfillUserPhotoUrl().equals("")){
+                    Glide.with(this).load(wish.getFulfillUserPhotoUrl()).apply(RequestOptions.circleCropTransform()).into(jinnImageView);
+                }else{
+                    jinnImageView.setImageResource(R.drawable.user_image);
+                }
+                jinnNameTextView.setText(wish.getFulfillUserName());
+                jinnCommentTextView.setText(wish.getComment());
+            } else {
+                jinnInfoLinearLayout.setVisibility(View.INVISIBLE);
+            }
 
+        }
+        else {
+            btn.setEnabled(true);
+        }
+        btn.setOnClickListener(view1 -> {
+            wish.setComment(wishCommentEditText.getText().toString());
+            wishDetailViewModel.updateWish(wish);
         });
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }

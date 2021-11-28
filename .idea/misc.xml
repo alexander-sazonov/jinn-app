@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Alexander/AndroidStudioProjects/jinn-app/app/src/main/res/layout/fragment_my_wishes.xml" value="0.11548913043478261" />
+        <entry key="..\:/Users/Alexander/AndroidStudioProjects/jinn-app/app/src/main/res/layout/fragment_wish_detail.xml" value="0.22" />
+        <entry key="..\:/Users/Alexander/AndroidStudioProjects/jinn-app/app/src/main/res/layout/wishes_item.xml" value="0.33" />
+        <entry key="..\:/Users/Alexander/AndroidStudioProjects/jinn-app/app/src/main/res/menu/menu_bottom_nav.xml" value="0.20416666666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.21927083333333333" />
         <entry key="app/src/main/res/drawable/ic_photo_background.xml" value="0.1140625" />
         <entry key="app/src/main/res/drawable/ic_photo_foreground.xml" value="0.1140625" />

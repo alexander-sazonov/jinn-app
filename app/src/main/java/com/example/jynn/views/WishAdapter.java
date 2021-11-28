@@ -110,10 +110,28 @@ public class WishAdapter extends RecyclerView.Adapter<WishAdapter.ViewHolder> {
              Uri userPhotoUrl = Uri.parse(wish.getCreateUserPhotoUrl());
              Glide.with(holder.getUserImageView().getContext()).load(userPhotoUrl).apply(RequestOptions.circleCropTransform()).into(holder.getUserImageView());
          }
+        if(wish.getFulfillUserId().equals("")){
+            holder.getJinnImageView().setVisibility(View.INVISIBLE);
+            holder.getJinnNameTextView().setVisibility(View.INVISIBLE);
+            holder.getJinnTextView().setVisibility(View.INVISIBLE);
+        }else{
+            holder.getJinnImageView().setVisibility(View.VISIBLE);
+            holder.getJinnNameTextView().setVisibility(View.VISIBLE);
+            holder.getJinnTextView().setVisibility(View.VISIBLE);
+        }
+        if(wish.getFulfillUserPhotoUrl().equals("")){
+            holder.getJinnImageView().setImageResource(R.drawable.user_image);
+        }else{
+            Uri fulfillPhotoUrl = Uri.parse(wish.getFulfillUserPhotoUrl());
+            Glide.with(holder.getUserImageView().getContext()).load(fulfillPhotoUrl).apply(RequestOptions.circleCropTransform()).into(holder.getJinnImageView());
+
+        }
 
          String wishCreateName = wish.getCreateUserName();
          holder.getUserNameTextView().setText(wishCreateName);
          holder.getWishTitleTextView().setText(wishTitle);
+         String jinnName = wish.getFulfillUserName();
+         holder.getJinnNameTextView().setText(jinnName);
 
 
 
@@ -137,12 +155,18 @@ public class WishAdapter extends RecyclerView.Adapter<WishAdapter.ViewHolder> {
         private TextView userNameTextView;
         private TextView wishTitleTextView;
         private ImageView userImageView;
+        private ImageView jinnImageView;
+        private TextView jinnNameTextView;
+        private TextView jinnTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             userImageView = (ImageView) itemView.findViewById(R.id.user_photo);
             userNameTextView = (TextView) itemView.findViewById(R.id.user_name);
             wishTitleTextView = (TextView) itemView.findViewById(R.id.wish_title);
+            jinnImageView = (ImageView) itemView.findViewById(R.id.jinn_photo);
+            jinnNameTextView = (TextView) itemView.findViewById(R.id.jinn_name);
+            jinnTextView = (TextView) itemView.findViewById(R.id.jinn_text);
         }
 
         public ImageView getUserImageView() {
@@ -155,6 +179,18 @@ public class WishAdapter extends RecyclerView.Adapter<WishAdapter.ViewHolder> {
 
         public TextView getWishTitleTextView() {
             return wishTitleTextView;
+        }
+
+        public ImageView getJinnImageView() {
+            return jinnImageView;
+        }
+
+        public TextView getJinnNameTextView() {
+            return jinnNameTextView;
+        }
+
+        public TextView getJinnTextView() {
+            return jinnTextView;
         }
     }
 }

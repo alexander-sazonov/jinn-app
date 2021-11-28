@@ -9,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +36,7 @@ public class DatabaseAppRepository {
     private MutableLiveData<Boolean> wishAddedLiveData;
     private List<Wish> wishes;
     private MutableLiveData<List<Wish>> wishesLiveData;
+    private MutableLiveData<Boolean> wishUpdatedLiveData;
 
     public DatabaseAppRepository(Application application){
         this.application = application;
@@ -42,6 +45,8 @@ public class DatabaseAppRepository {
         wishes = new ArrayList<>();
         wishesLiveData = new MutableLiveData<>();
         wishAddedLiveData.postValue(false);
+        wishUpdatedLiveData = new MutableLiveData<>();
+        wishUpdatedLiveData.setValue(false);
         fetchData();
     }
 
@@ -85,7 +90,7 @@ public class DatabaseAppRepository {
                     Wish wish = child.getValue(Wish.class);
                     wish.setId(child.getKey());
                     wishes.add(wish);
-                    Log.d(TAG,wish.getTitle());
+                   // Log.d(TAG,wish.getTitle());
                 }
                 wishesLiveData.setValue(wishes);
             }
@@ -115,7 +120,36 @@ public class DatabaseAppRepository {
         return user[0];
     }
 
+    public void updateWish(Wish wish){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference wishReference = databaseReference.child("wishes").child(wish.getId());
+        wish.setFulfillUserId(currentUser.getUid());
+        wish.setFulfillUserName(currentUser.getDisplayName());
+        if (currentUser.getPhotoUrl()!=null){
+            wish.setFulfillUserPhotoUrl(currentUser.getPhotoUrl().toString());
+        }
+        wishReference.setValue(wish).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                 wishUpdatedLiveData.setValue(true);
+            }
+        });
+    }
+
+    /*public boolean isMyWish(String createUserId){
+        return TextUtils.equals(createUserId,FirebaseAuth.getInstance().getCurrentUser().getUid());
+    }*/
+
+    public String getCurrentUserId(){
+
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
     public MutableLiveData<List<Wish>> getWishesLiveData() {
         return wishesLiveData;
+    }
+
+    public MutableLiveData<Boolean> getWishUpdatedLiveData() {
+        return wishUpdatedLiveData;
     }
 }

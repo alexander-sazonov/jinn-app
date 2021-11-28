@@ -91,11 +91,18 @@ public class WishesFragment extends Fragment {
             @Override
             public void onWishClick(Wish wish) {
                 //открыть новый фрагмент и передать туда wish
-                Toast.makeText(getContext(),wish.getTitle(), Toast.LENGTH_SHORT).show();
                 Bundle result = new Bundle();
                 result.putParcelable("bundleKey",wish);
-                //getParentFragmentManager().setFragmentResult("requestKey",result);
-                Navigation.findNavController(getView()).navigate(R.id.action_wishesFragment_to_wishDetailFragment, result);
+                if(!wish.getFulfillUserId().equals("")){
+                   if(!wish.getCreateUserId().equals(wishesViewModel.getCurrentUserId())){
+                       Toast.makeText(getContext(),"You can't open this wish",Toast.LENGTH_LONG).show();
+                    }else{
+                       Navigation.findNavController(getView()).navigate(R.id.action_wishesFragment_to_wishDetailFragment, result);
+                    }
+                }else{
+                    Navigation.findNavController(getView()).navigate(R.id.action_wishesFragment_to_wishDetailFragment, result);
+                }
+
             }
         };
         adapter = new WishAdapter(onWishClickListener);
